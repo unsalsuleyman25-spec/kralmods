@@ -18,77 +18,60 @@
     body{font-family:Inter,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text); margin:0; padding:32px; display:flex; justify-content:center}
     .wrap{width:100%; max-width:var(--maxw)}
     header{display:flex; align-items:center; gap:16px; margin-bottom:20px}
-    .logo{display:flex; align-items:center; gap:12px}
-    .logo img{width:56px; height:56px; border-radius:12px}
-    h1{margin:0; font-size:20px}
+    .logo{display:flex; align-items:center; gap:10px}
+    .site-logo{width:56px; height:56px; border-radius:12px}
+    .site-title{font-size:24px; font-weight:700; margin:0; color:var(--text)}
     .topbar{display:flex; gap:12px; margin-top:8px; align-items:center}
     .search{flex:1}
     input[type=text]{width:100%; padding:10px 12px; border-radius:10px; border:1px solid #e6eef9}
     .filters{display:flex; gap:8px; flex-wrap:wrap}
     .filter-btn{background:transparent; border:1px solid #e6eef9; padding:8px 10px; border-radius:10px; cursor:pointer}
+
     .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:22px}
     .card{background:var(--card); border-radius:var(--radius); padding:14px; box-shadow:0 6px 18px rgba(11,114,209,0.06); display:flex; flex-direction:column}
     .card img{
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 10px;
-  background-color: #f3f4f6; /* Resim geç yüklenirse açık gri arka plan */
-  transition: transform 0.3s ease; /* Hover efekti için hazır */
-}
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      border-radius:10px;
+      background-color:#f3f4f6;
+      transition:transform 0.3s ease;
+    }
     .meta{display:flex; justify-content:space-between; align-items:center; margin-top:10px}
     .cat{font-size:12px; color:var(--muted)}
     .name{font-weight:600; margin:6px 0}
     .desc{font-size:13px; color:var(--muted); flex:1}
     .actions{display:flex; gap:8px; margin-top:10px}
-    <style>
-    .socials {
-  display: flex;
-  gap: 14px;
-  font-size: 22px;
-  margin-top: 8px;
-}
-.socials a {
-  text-decoration: none;
-  transition: transform 0.2s ease;
-}
-.socials a:hover {
-  transform: scale(1.2);
-}
-
     .btn{padding:8px 12px; border-radius:10px; border:none; cursor:pointer}
     .btn-download{background:var(--accent); color:white}
-    footer{margin-top:40px; padding-top:20px; border-top:1px solid #e6eef9; font-size:14px; color:var(--muted)}
+
+    footer{margin-top:40px; padding-top:20px; border-top:1px solid #e6eef9; font-size:14px; color:var(--muted); text-align:left;}
     footer h2{color:var(--text); font-size:16px; margin-bottom:6px}
     footer .section{margin-bottom:20px}
     footer a{color:var(--accent); text-decoration:none}
+    .socials{display:flex; gap:14px; font-size:22px; margin-top:8px;}
+    .socials a{text-decoration:none; transition:transform 0.2s ease;}
+    .socials a:hover{transform:scale(1.2);}
     @media (max-width:600px){body{padding:16px}}
-}
-.socials a{
-  text-decoration: none;
-  transition: transform 0.2s ease;
-}
-.socials a:hover{
-  transform: scale(1.2);
-}
+  </style>
 </head>
 <body>
-  <div class="logo">
-  <img src="KM-logo.png" alt="Kral Mods Logosu" class="site-logo">
-  <h1 class="site-title">Kral Mods</h1>
-</div>
-<div class="topbar">
-  <div class="search"><input id="q" type="text" placeholder="Mod ara... (isim veya açıklama)"></div>
-  <div class="filters">
-    <button class="filter-btn" data-cat="all">Tümü</button>
-    <button class="filter-btn" data-cat="Traktör">Traktörler</button>
-    <button class="filter-btn" data-cat="Biçerdöver">Biçerdöverler</button>
-    <button class="filter-btn" data-cat="Ekipman">Ekipmanlar</button>
-    <button class="filter-btn" data-cat="Harita">Haritalar</button>
-    <button class="filter-btn" data-cat="Araç Yaması">Araç Yaması</button>
-    <button class="filter-btn" data-cat="Skin">Skin</button>
-  </div>
-</div>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <img src="KM-logo.png" alt="Kral Mods Logosu" class="site-logo">
+        <h1 class="site-title">Kral Mods</h1>
+      </div>
+      <div class="topbar">
+        <div class="search"><input id="q" type="text" placeholder="Mod ara... (isim veya açıklama)"></div>
+        <div class="filters">
+          <button class="filter-btn" data-cat="all">Tümü</button>
+          <button class="filter-btn" data-cat="Traktör">Traktörler</button>
+          <button class="filter-btn" data-cat="Biçerdöver">Biçerdöverler</button>
+          <button class="filter-btn" data-cat="Ekipman">Ekipmanlar</button>
+          <button class="filter-btn" data-cat="Harita">Haritalar</button>
+          <button class="filter-btn" data-cat="Araç Yaması">Araç Yaması</button>
+          <button class="filter-btn" data-cat="Skin">Skin</button>
         </div>
       </div>
     </header>
@@ -97,69 +80,67 @@
       <section id="grid" class="grid"></section>
     </main>
 
-  
-  <footer>
-    <div class="section">
-      <h2>🌾 Kral Mods Hakkında</h2>
-      <p>FS25 oyuncuları için en yeni ve kaliteli modları paylaşıyoruz. Sitemiz tamamen ücretsizdir ve topluluğa katkı sağlamayı amaçlar.</p>
-    </div>
-
-    <div class="section">
-      <h2>📬 İletişim</h2>
-      <div class="socials">
-        <a href="mailto:kralmods@gmail.com" title="E-posta">📧</a>
-        <a href="https://discord.gg/kralmods" title="Discord">💬</a>
-        <a href="https://instagram.com/kralmods" title="Instagram">📸</a>
+    <footer>
+      <div class="section">
+        <h2>🌾 Kral Mods Hakkında</h2>
+        <p>FS25 oyuncuları için en yeni ve kaliteli modları paylaşıyoruz. Sitemiz tamamen ücretsizdir ve topluluğa katkı sağlamayı amaçlar.</p>
       </div>
-    </div>
 
-    <div style="margin-top:20px;">© 2026 Kral Mods — Tüm hakları saklıdır.</div>
-  </footer>
-</div>
+      <div class="section">
+        <h2>📬 İletişim</h2>
+        <div class="socials">
+          <a href="mailto:kralmods@gmail.com" title="E-posta">📧</a>
+          <a href="https://discord.gg/kralmods" title="Discord">💬</a>
+          <a href="https://instagram.com/kralmods" title="Instagram">📸</a>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">© 2026 Kral Mods — Tüm hakları saklıdır.</div>
+    </footer>
+  </div>
 
   <script>
-  // Mod listesi
-  const mods = [
-    {id:'jd8r',name:'John Deere 8R',category:'Traktör',description:'Güçlü ve modern bir traktör paketi.',image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID1'},
-    {id:'claas8900',name:'Claas Lexion 8900',category:'Biçerdöver',description:'Yüksek kapasiteli biçerdöver modu.',image:'https://images.unsplash.com/photo-1504198458649-3128b932f49b?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID2'},
-    {id:'equip01',name:'Çok Amaçlı Römork',category:'Ekipman',description:'Yük taşımaya uygun römork modu.',image:'https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID3'},
-    {id:'harita1',name:'Büyük Tarla Haritası',category:'Harita',description:'Gerçekçi tarlalar ve geniş oyun alanı.',image:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID4'},
-    {id:'yamaci1',name:'John Deere Skin Pack',category:'Araç Yaması',description:'Farklı John Deere skinleri içeren paket.',image:'https://images.unsplash.com/photo-1520975911133-4f9f5b3f9b8a?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID5'},
-    {id:'skinpack1',name:'Classic Skin Pack',category:'Skin',description:'Klasik renk ve desen skinleri.',image:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID6'},
-    {id:'basakredpower',name:'Başak Red Power',category:'Traktör',description:'FS25 için geliştirilmiş güçlü Başak Red Power traktör modu.',image:'https://images.unsplash.com/photo-1597004895280-9aa5b1bba4e2?w=1200',download:'https://drive.google.com/uc?export=download&id=1PfuFvzeGIEgMUP9k0xFt28ik5wsEcbi5'}
-  ];
+    const mods = [
+      {id:'jd8r',name:'John Deere 8R',category:'Traktör',description:'Güçlü ve modern bir traktör paketi.',image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID1'},
+      {id:'claas8900',name:'Claas Lexion 8900',category:'Biçerdöver',description:'Yüksek kapasiteli biçerdöver modu.',image:'https://images.unsplash.com/photo-1504198458649-3128b932f49b?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID2'},
+      {id:'equip01',name:'Çok Amaçlı Römork',category:'Ekipman',description:'Yük taşımaya uygun römork modu.',image:'https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID3'},
+      {id:'harita1',name:'Büyük Tarla Haritası',category:'Harita',description:'Gerçekçi tarlalar ve geniş oyun alanı.',image:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID4'},
+      {id:'yamaci1',name:'John Deere Skin Pack',category:'Araç Yaması',description:'Farklı John Deere skinleri içeren paket.',image:'https://images.unsplash.com/photo-1520975911133-4f9f5b3f9b8a?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID5'},
+      {id:'skinpack1',name:'Classic Skin Pack',category:'Skin',description:'Klasik renk ve desen skinleri.',image:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID6'},
+      {id:'basakredpower',name:'Başak Red Power',category:'Traktör',description:'FS25 için geliştirilmiş güçlü Başak Red Power traktör modu.',image:'https://images.unsplash.com/photo-1597004895280-9aa5b1bba4e2?w=1200',download:'https://drive.google.com/uc?export=download&id=1PfuFvzeGIEgMUP9k0xFt28ik5wsEcbi5'}
+    ];
 
-  const grid=document.getElementById('grid');
-  function render(list){
-    grid.innerHTML='';
-    list.forEach(m=>{
-      const el=document.createElement('article');
-      el.className='card';
-      el.innerHTML=`
-        <img src="${m.image}" alt="${m.name}">
-        <div class="meta"><div class="cat">${m.category}</div><div class="id">#${m.id}</div></div>
-        <div class="name">${m.name}</div>
-        <div class="desc">${m.description}</div>
-        <div class="actions">
-          <a class="btn btn-download" href="${m.download}" download>İndir</a>
-        </div>`;
-      grid.appendChild(el);
+    const grid=document.getElementById('grid');
+    function render(list){
+      grid.innerHTML='';
+      list.forEach(m=>{
+        const el=document.createElement('article');
+        el.className='card';
+        el.innerHTML=`
+          <img src="${m.image}" alt="${m.name}">
+          <div class="meta"><div class="cat">${m.category}</div><div class="id">#${m.id}</div></div>
+          <div class="name">${m.name}</div>
+          <div class="desc">${m.description}</div>
+          <div class="actions">
+            <a class="btn btn-download" href="${m.download}" download>İndir</a>
+          </div>`;
+        grid.appendChild(el);
+      });
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const cat=b.getAttribute('data-cat');
+        render(cat==='all'?mods:mods.filter(m=>m.category===cat));
+      });
     });
-  }
 
-  document.querySelectorAll('.filter-btn').forEach(b=>{
-    b.addEventListener('click',()=>{
-      const cat=b.getAttribute('data-cat');
-      render(cat==='all'?mods:mods.filter(m=>m.category===cat));
+    document.getElementById('q').addEventListener('input',e=>{
+      const q=e.target.value.trim().toLowerCase();
+      render(!q?mods:mods.filter(m=>(m.name+m.description+m.category).toLowerCase().includes(q)));
     });
-  });
 
-  document.getElementById('q').addEventListener('input',e=>{
-    const q=e.target.value.trim().toLowerCase();
-    render(!q?mods:mods.filter(m=>(m.name+m.description+m.category).toLowerCase().includes(q)));
-  });
-
-  render(mods);
+    render(mods);
   </script>
 </body>
 </html>
