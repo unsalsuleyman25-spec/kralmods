@@ -41,6 +41,21 @@
     .name{font-weight:600; margin:6px 0}
     .desc{font-size:13px; color:var(--muted); flex:1}
     .actions{display:flex; gap:8px; margin-top:10px}
+    <style>
+    .socials {
+  display: flex;
+  gap: 14px;
+  font-size: 22px;
+  margin-top: 8px;
+}
+.socials a {
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.socials a:hover {
+  transform: scale(1.2);
+}
+
     .btn{padding:8px 12px; border-radius:10px; border:none; cursor:pointer}
     .btn-download{background:var(--accent); color:white}
     footer{margin-top:40px; padding-top:20px; border-top:1px solid #e6eef9; font-size:14px; color:var(--muted)}
@@ -48,12 +63,6 @@
     footer .section{margin-bottom:20px}
     footer a{color:var(--accent); text-decoration:none}
     @media (max-width:600px){body{padding:16px}}
-  </style>
-  .socials{
-  display: flex;
-  gap: 14px;
-  font-size: 22px;
-  margin-top: 8px;
 }
 .socials a{
   text-decoration: none;
