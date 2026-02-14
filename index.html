@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kral Mods | FS25 Modları</title>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -107,7 +103,11 @@
     <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
   </footer>
 
-  <script>
+  <!-- 🔥 Firebase modüler sistemle uyumlu script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
     // 🔹 Firebase ayarların
     const firebaseConfig = {
       apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
@@ -119,32 +119,40 @@
     };
 
     // Firebase başlat
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    // Modları Firestore'dan çek ve listele
+    // Modları Firestore'dan çek
     const modList = document.getElementById("modList");
 
-    db.collection("mods").orderBy("description", "desc").onSnapshot((snapshot) => {
-      modList.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const mod = doc.data();
-        const card = `
-          <div class="mod-card">
-            <img src="${mod.image}" alt="${mod.name}" class="mod-img">
-            <h3>${mod.name}</h3>
-            <p><strong>Kategori:</strong> ${mod.category}</p>
-            <p>${mod.description || "Açıklama bulunmuyor."}</p>
-            <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
-          </div>
-        `;
-        modList.innerHTML += card;
-      });
+    async function loadMods() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "mods"));
+        modList.innerHTML = "";
+        querySnapshot.forEach((doc) => {
+          const mod = doc.data();
+          const card = `
+            <div class="mod-card">
+              <img src="${mod.image}" alt="${mod.name}" class="mod-img">
+              <h3>${mod.name}</h3>
+              <p><strong>Kategori:</strong> ${mod.category}</p>
+              <p>${mod.description || "Açıklama bulunmuyor."}</p>
+              <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
+            </div>
+          `;
+          modList.innerHTML += card;
+        });
 
-      if (snapshot.empty) {
-        modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
+        if (querySnapshot.empty) {
+          modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
+        }
+      } catch (error) {
+        console.error("Veri çekme hatası:", error);
+        modList.innerHTML = "<p>Veriler alınamadı. Lütfen Firebase ayarlarını kontrol edin.</p>";
       }
-    });
+    }
+
+    loadMods();
   </script>
 </body>
 </html>
