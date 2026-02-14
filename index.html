@@ -1,162 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kral Mods — FS25 Mod İndir</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kral Mods | FS25 Modları</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+
   <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0b1a2b;
-      --muted:#6b7280;
-      --accent:#0b72d1;
-      --card:#fbfcff;
-      --radius:12px;
-      --maxw:1100px;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
     }
-    *{box-sizing:border-box}
-    body{font-family:Inter,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text); margin:0; padding:32px; display:flex; justify-content:center}
-    .wrap{width:100%; max-width:var(--maxw)}
-    header{display:flex; align-items:center; gap:16px; margin-bottom:20px}
-    .logo{display:flex; align-items:center; gap:10px}
-    .site-logo{width:56px; height:56px; border-radius:12px}
-    .site-title{font-size:24px; font-weight:700; margin:0; color:var(--text)}
-    .topbar{display:flex; gap:12px; margin-top:8px; align-items:center}
-    .search{flex:1}
-    input[type=text]{width:100%; padding:10px 12px; border-radius:10px; border:1px solid #e6eef9}
-    .filters{display:flex; gap:8px; flex-wrap:wrap}
-    .filter-btn{background:transparent; border:1px solid #e6eef9; padding:8px 10px; border-radius:10px; cursor:pointer}
 
-    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:22px}
-    .card{background:var(--card); border-radius:var(--radius); padding:14px; box-shadow:0 6px 18px rgba(11,114,209,0.06); display:flex; flex-direction:column}
-    .card img{
-      width:100%;
-      height:180px;
-      object-fit:cover;
-      border-radius:10px;
-      background-color:#f3f4f6;
-      transition:transform 0.3s ease;
+    header {
+      background: royalblue;
+      color: white;
+      padding: 20px;
+      text-align: center;
     }
-    .meta{display:flex; justify-content:space-between; align-items:center; margin-top:10px}
-    .cat{font-size:12px; color:var(--muted)}
-    .name{font-weight:600; margin:6px 0}
-    .desc{font-size:13px; color:var(--muted); flex:1}
-    .actions{display:flex; gap:8px; margin-top:10px}
-    .btn{padding:8px 12px; border-radius:10px; border:none; cursor:pointer}
-    .btn-download{background:var(--accent); color:white}
 
-    footer{margin-top:40px; padding-top:20px; border-top:1px solid #e6eef9; font-size:14px; color:var(--muted); text-align:left;}
-    footer h2{color:var(--text); font-size:16px; margin-bottom:6px}
-    footer .section{margin-bottom:20px}
-    footer a{color:var(--accent); text-decoration:none}
-    .socials{display:flex; gap:14px; font-size:22px; margin-top:8px;}
-    .socials a{text-decoration:none; transition:transform 0.2s ease;}
-    .socials a:hover{transform:scale(1.2);}
-    @media (max-width:600px){body{padding:16px}}
+    h1 {
+      margin: 0;
+    }
+
+    .mod-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .mod-card {
+      background: white;
+      border-radius: 12px;
+      width: 260px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .mod-card:hover {
+      transform: scale(1.03);
+    }
+
+    .mod-card h3 {
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .mod-card p {
+      color: #555;
+      margin: 0 0 10px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: royalblue;
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .download-btn:hover {
+      background: #0056d2;
+    }
+
+    footer {
+      background: #222;
+      color: #aaa;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo">
-        <img src="KM-logo.png" alt="Kral Mods Logosu" class="site-logo">
-        <h1 class="site-title">Kral Mods</h1>
-      </div>
-      <div class="topbar">
-        <div class="search"><input id="q" type="text" placeholder="Mod ara... (isim veya açıklama)"></div>
-        <div class="filters">
-          <button class="filter-btn" data-cat="all">Tümü</button>
-          <button class="filter-btn" data-cat="Traktör">Traktörler</button>
-          <button class="filter-btn" data-cat="Biçerdöver">Biçerdöverler</button>
-          <button class="filter-btn" data-cat="Ekipman">Ekipmanlar</button>
-          <button class="filter-btn" data-cat="Harita">Haritalar</button>
-          <button class="filter-btn" data-cat="Araç Yaması">Araç Yaması</button>
-          <button class="filter-btn" data-cat="Skin">Skin</button>
-        </div>
-      </div>
-    </header>
 
-    <main>
-      <section id="grid" class="grid"></section>
-    </main>
+  <header>
+    <h1>🚜 Kral Mods – FS25 Modları</h1>
+    <p>En yeni traktör, araç ve harita modları burada!</p>
+  </header>
 
-    <footer>
-      <div class="section">
-        <h2>🌾 Kral Mods Hakkında</h2>
-        <p>FS25 oyuncuları için en yeni ve kaliteli modları paylaşıyoruz. Sitemiz tamamen ücretsizdir ve topluluğa katkı sağlamayı amaçlar.</p>
-      </div>
+  <main>
+    <div class="mod-container" id="modList">
+      <p>Modlar yükleniyor...</p>
+    </div>
+  </main>
 
-      <div class="section">
-        <h2>📬 İletişim</h2>
-        <div class="socials">
-          <a href="mailto:kralmods@gmail.com" title="E-posta">📧</a>
-          <a href="https://discord.gg/kralmods" title="Discord">💬</a>
-          <a href="https://instagram.com/kralmods" title="Instagram">📸</a>
-        </div>
-      </div>
-
-      <div style="margin-top:20px;">© 2026 Kral Mods — Tüm hakları saklıdır.</div>
-    </footer>
-  </div>
+  <footer>
+    <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
+  </footer>
 
   <script>
-    const mods = [
-      {id:'jd8r',name:'John Deere 8R',category:'Traktör',description:'Güçlü ve modern bir traktör paketi.',image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID1'},
-      {id:'claas8900',name:'Claas Lexion 8900',category:'Biçerdöver',description:'Yüksek kapasiteli biçerdöver modu.',image:'https://images.unsplash.com/photo-1504198458649-3128b932f49b?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID2'},
-      {id:'equip01',name:'Çok Amaçlı Römork',category:'Ekipman',description:'Yük taşımaya uygun römork modu.',image:'https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID3'},
-      {id:'harita1',name:'Büyük Tarla Haritası',category:'Harita',description:'Gerçekçi tarlalar ve geniş oyun alanı.',image:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID4'},
-      {id:'yamaci1',name:'John Deere Skin Pack',category:'Araç Yaması',description:'Farklı John Deere skinleri içeren paket.',image:'https://images.unsplash.com/photo-1520975911133-4f9f5b3f9b8a?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID5'},
-      {id:'skinpack1',name:'Classic Skin Pack',category:'Skin',description:'Klasik renk ve desen skinleri.',image:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200',download:'https://drive.google.com/uc?export=download&id=MOD_ID6'},
-      {id:'basakredpower',name:'Başak Red Power',category:'Traktör',description:'FS25 için geliştirilmiş güçlü Başak Red Power traktör modu.',image:'https://images.unsplash.com/photo-1597004895280-9aa5b1bba4e2?w=1200',download:'https://drive.google.com/uc?export=download&id=1PfuFvzeGIEgMUP9k0xFt28ik5wsEcbi5'}
-      {
-  name: "Tümosan 8100",
-  image: "https://files.fs25.net/mods/2025/11/Tumosan-8100-v1.02.webp",
-  description: `
-  – Kategori: Küçük Traktörler<br>
-  – Güç: 75 ila 105 HP<br>
-  – Fiyat: 23.000$<br>
-  – Hız sınırı: 44 km/sa<br>
-  – Tekerlek Ayarları<br>
-  – Hareketli kapılar<br>
-  – Cakar şu anda çalışmıyor
-  `,
-  download: "https://fs25.net/tumosan-8100-v1-0/",
-  category: "traktör"
-}
+    // 🔹 Firebase ayarlarını buraya yapıştır (Firebase Console > Project Settings > Web App)
+    const firebaseConfig = {
+      apiKey: "API_KEY",
+      authDomain: "PROJECT_ID.firebaseapp.com",
+      projectId: "PROJECT_ID",
+      storageBucket: "PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
 
-    ,];
+    // Firebase başlat
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    const grid=document.getElementById('grid');
-    function render(list){
-      grid.innerHTML='';
-      list.forEach(m=>{
-        const el=document.createElement('article');
-        el.className='card';
-        el.innerHTML=`
-          <img src="${m.image}" alt="${m.name}">
-          <div class="meta"><div class="cat">${m.category}</div><div class="id">#${m.id}</div></div>
-          <div class="name">${m.name}</div>
-          <div class="desc">${m.description}</div>
-          <div class="actions">
-            <a class="btn btn-download" href="${m.download}" download>İndir</a>
-          </div>`;
-        grid.appendChild(el);
+    // Modları Firestore'dan çek ve listele
+    const modList = document.getElementById("modList");
+
+    db.collection("mods").orderBy("created", "desc").onSnapshot((snapshot) => {
+      modList.innerHTML = ""; // Temizle
+      snapshot.forEach((doc) => {
+        const mod = doc.data();
+        const card = `
+          <div class="mod-card">
+            <h3>${mod.name}</h3>
+            <p><strong>Kategori:</strong> ${mod.category}</p>
+            <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
+          </div>
+        `;
+        modList.innerHTML += card;
       });
-    }
 
-    document.querySelectorAll('.filter-btn').forEach(b=>{
-      b.addEventListener('click',()=>{
-        const cat=b.getAttribute('data-cat');
-        render(cat==='all'?mods:mods.filter(m=>m.category===cat));
-      });
+      if (snapshot.empty) {
+        modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
+      }
     });
-
-    document.getElementById('q').addEventListener('input',e=>{
-      const q=e.target.value.trim().toLowerCase();
-      render(!q?mods:mods.filter(m=>(m.name+m.description+m.category).toLowerCase().includes(q)));
-    });
-
-    render(mods);
   </script>
 </body>
 </html>
