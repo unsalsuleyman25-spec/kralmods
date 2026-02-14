@@ -88,10 +88,10 @@
     <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
   </footer>
 
-  <!-- 🔥 Firebase (gerçek zamanlı dinleme) -->
+  <!-- 🔥 Firebase (created alanı olmadan, garanti çalışan sürüm) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
@@ -106,9 +106,8 @@
     const db = getFirestore(app);
     const modList = document.getElementById("modList");
 
-    // 🔹 Gerçek zamanlı Firestore verilerini dinle
-    const q = query(collection(db, "mods"), orderBy("created", "desc"));
-    onSnapshot(q, (snapshot) => {
+    // 🔹 created alanı olmadan tüm modları dinle
+    onSnapshot(collection(db, "mods"), (snapshot) => {
       modList.innerHTML = "";
       snapshot.forEach((doc) => {
         const mod = doc.data();
