@@ -1,13 +1,9 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mod Ekle | Kral Modları</title>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
 
   <style>
     body {
@@ -65,27 +61,31 @@
     <input type="text" id="modName" placeholder="Mod Adı" required />
     <input type="text" id="modCategory" placeholder="Kategori (örn: Traktör, Harita...)" required />
     <input type="text" id="modImage" placeholder="Resim URL'si" required />
-    <textarea id="modDescription" placeholder="Açıklama (mod hakkında kısa bilgi)" rows="3"></textarea>
+    <textarea id="modDescription" placeholder="Açıklama (mod hakkında kısa bilgi)" rows="3" required></textarea>
     <input type="text" id="modDownload" placeholder="Download Linki" required />
     <button type="submit">Modu Ekle</button>
   </form>
 
-  <script>
-    // 🔹 Firebase ayarlarını buraya yapıştır (Firebase Console > Project Settings > Web App)
+  <script type="module">
+    // Firebase modüler sürüm
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    // 🔹 Firebase ayarların
     const firebaseConfig = {
-      apiKey: "API_KEY",
-      authDomain: "PROJECT_ID.firebaseapp.com",
-      projectId: "PROJECT_ID",
-      storageBucket: "PROJECT_ID.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
+      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
+      authDomain: "kralmods.firebaseapp.com",
+      projectId: "kralmods",
+      storageBucket: "kralmods.firebasestorage.app",
+      messagingSenderId: "158656794483",
+      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
     };
 
     // Firebase başlat
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    // Form gönderildiğinde Firestore’a kaydet
+    // Form gönderme
     const form = document.getElementById("modForm");
 
     form.addEventListener("submit", async (e) => {
@@ -98,19 +98,19 @@
       const download = document.getElementById("modDownload").value;
 
       try {
-        await db.collection("mods").add({
+        await addDoc(collection(db, "mods"), {
           name,
           category,
           image,
           description,
           download,
-          created: firebase.firestore.FieldValue.serverTimestamp()
+          created: serverTimestamp()
         });
         alert("✅ Mod başarıyla eklendi!");
         form.reset();
       } catch (err) {
-        console.error(err);
-        alert("❌ Hata oluştu! Konsolu kontrol et.");
+        console.error("Hata:", err);
+        alert("❌ Mod eklenemedi! Konsolu kontrol et.");
       }
     });
   </script>
