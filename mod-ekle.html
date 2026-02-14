@@ -1,78 +1,118 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mod Ekle | Kral Mods</title>
-</head>
-<body style="font-family: Arial; background-color: #f3f6ff; padding: 20px;">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mod Ekle | Kral Modları</title>
 
-  <h2>Kral Mods - Yeni Mod Ekle</h2>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: royalblue;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, textarea, button {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    button {
+      background: royalblue;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056d2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛠️ Yeni Mod Ekle</h1>
 
   <form id="modForm">
-    <label>Mod Adı:</label><br>
-    <input type="text" id="modAdi" required><br><br>
-
-    <label>Kategori:</label><br>
-    <input type="text" id="kategori" required><br><br>
-
-    <label>Açıklama:</label><br>
-    <textarea id="aciklama" required></textarea><br><br>
-
-    <label>İndir Linki:</label><br>
-    <input type="url" id="indirLink" required><br><br>
-
-    <label>Resim Linki:</label><br>
-    <input type="url" id="resimLink" required><br><br>
-
-    <button type="submit">Modu Kaydet</button>
+    <input type="text" id="modName" placeholder="Mod Adı" required />
+    <input type="text" id="modCategory" placeholder="Kategori (örn: Traktör, Harita...)" required />
+    <input type="text" id="modImage" placeholder="Resim URL'si" required />
+    <textarea id="modDescription" placeholder="Açıklama (mod hakkında kısa bilgi)" rows="3"></textarea>
+    <input type="text" id="modDownload" placeholder="Download Linki" required />
+    <button type="submit">Modu Ekle</button>
   </form>
 
-  <p id="sonuc"></p>
-
-  <script type="module">
-    // Firebase SDK importları
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    // 🔹 Senin Firebase ayarların
+  <script>
+    // 🔹 Firebase ayarlarını buraya yapıştır (Firebase Console > Project Settings > Web App)
     const firebaseConfig = {
-      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
-      authDomain: "kralmods.firebaseapp.com",
-      databaseURL: "https://kralmods-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "kralmods",
-      storageBucket: "kralmods.firebasestorage.app",
-      messagingSenderId: "158656794483",
-      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
+      apiKey: "API_KEY",
+      authDomain: "PROJECT_ID.firebaseapp.com",
+      projectId: "PROJECT_ID",
+      storageBucket: "PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    // Firebase başlat
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    // Formu gönderme işlemi
+    // Form gönderildiğinde Firestore’a kaydet
     const form = document.getElementById("modForm");
-    form.addEventListener("submit", (e) => {
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const mod = {
-        modAdi: document.getElementById("modAdi").value,
-        kategori: document.getElementById("kategori").value,
-        aciklama: document.getElementById("aciklama").value,
-        indirLink: document.getElementById("indirLink").value,
-        resimLink: document.getElementById("resimLink").value
-      };
+      const name = document.getElementById("modName").value;
+      const category = document.getElementById("modCategory").value;
+      const image = document.getElementById("modImage").value;
+      const description = document.getElementById("modDescription").value;
+      const download = document.getElementById("modDownload").value;
 
-      const yeniModRef = push(ref(db, "modlar"));
-      set(yeniModRef, mod)
-        .then(() => {
-          document.getElementById("sonuc").textContent = "✅ Mod başarıyla kaydedildi!";
-          form.reset();
-        })
-        .catch((error) => {
-          document.getElementById("sonuc").textContent = "❌ Hata: " + error.message;
+      try {
+        await db.collection("mods").add({
+          name,
+          category,
+          image,
+          description,
+          download,
+          created: firebase.firestore.FieldValue.serverTimestamp()
         });
+        alert("✅ Mod başarıyla eklendi!");
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        alert("❌ Hata oluştu! Konsolu kontrol et.");
+      }
     });
   </script>
-
 </body>
 </html>
