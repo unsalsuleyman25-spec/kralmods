@@ -20,10 +20,6 @@
       text-align: center;
     }
 
-    h1 {
-      margin: 0;
-    }
-
     .mod-container {
       display: flex;
       flex-wrap: wrap;
@@ -53,30 +49,6 @@
       margin-bottom: 10px;
     }
 
-    .mod-card h3 {
-      color: #222;
-      margin-bottom: 8px;
-    }
-
-    .mod-card p {
-      color: #555;
-      margin: 0 0 8px;
-      font-size: 14px;
-    }
-
-    .download-btn {
-      display: inline-block;
-      background: royalblue;
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-    }
-
-    .download-btn:hover {
-      background: #0056d2;
-    }
-
     footer {
       background: #222;
       color: #aaa;
@@ -103,26 +75,23 @@
     <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
   </footer>
 
-  <!-- 🔥 Firebase modüler sistemle uyumlu script -->
+  <!-- Firebase Modüler -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    // 🔹 Firebase ayarların
     const firebaseConfig = {
       apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
       authDomain: "kralmods.firebaseapp.com",
       projectId: "kralmods",
-      storageBucket: "kralmods.firebasestorage.app",
+      storageBucket: "kralmods.appspot.com",
       messagingSenderId: "158656794483",
       appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
     };
 
-    // Firebase başlat
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Modları Firestore'dan çek
     const modList = document.getElementById("modList");
 
     async function loadMods() {
@@ -131,13 +100,14 @@
         modList.innerHTML = "";
         querySnapshot.forEach((doc) => {
           const mod = doc.data();
+          console.log("Mod bulundu:", mod); // kontrol için
           const card = `
             <div class="mod-card">
               <img src="${mod.image}" alt="${mod.name}" class="mod-img">
               <h3>${mod.name}</h3>
               <p><strong>Kategori:</strong> ${mod.category}</p>
               <p>${mod.description || "Açıklama bulunmuyor."}</p>
-              <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
+              <a href="${mod.download}" target="_blank">İndir</a>
             </div>
           `;
           modList.innerHTML += card;
@@ -147,8 +117,8 @@
           modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
         }
       } catch (error) {
-        console.error("Veri çekme hatası:", error);
-        modList.innerHTML = "<p>Veriler alınamadı. Lütfen Firebase ayarlarını kontrol edin.</p>";
+        console.error("Firestore'dan veri çekilemedi:", error);
+        modList.innerHTML = "<p>Veri alınamadı. Konsolu kontrol et.</p>";
       }
     }
 
