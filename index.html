@@ -39,7 +39,7 @@
     .mod-card {
       background: white;
       border-radius: 12px;
-      width: 260px;
+      width: 270px;
       padding: 15px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s ease;
@@ -49,14 +49,23 @@
       transform: scale(1.03);
     }
 
+    .mod-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
     .mod-card h3 {
       color: #222;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .mod-card p {
       color: #555;
-      margin: 0 0 10px;
+      margin: 0 0 8px;
+      font-size: 14px;
     }
 
     .download-btn {
@@ -85,7 +94,7 @@
 
   <header>
     <h1>🚜 Kral Mods – FS25 Modları</h1>
-    <p>En yeni traktör, araç ve harita modları burada!</p>
+    <p>En yeni traktör, araç, yama ve harita modları burada!</p>
   </header>
 
   <main>
@@ -99,14 +108,14 @@
   </footer>
 
   <script>
-    // 🔹 Firebase ayarlarını buraya yapıştır (Firebase Console > Project Settings > Web App)
+    // 🔹 Firebase ayarların
     const firebaseConfig = {
-      apiKey: "API_KEY",
-      authDomain: "PROJECT_ID.firebaseapp.com",
-      projectId: "PROJECT_ID",
-      storageBucket: "PROJECT_ID.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
+      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
+      authDomain: "kralmods.firebaseapp.com",
+      projectId: "kralmods",
+      storageBucket: "kralmods.firebasestorage.app",
+      messagingSenderId: "158656794483",
+      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
     };
 
     // Firebase başlat
@@ -116,14 +125,16 @@
     // Modları Firestore'dan çek ve listele
     const modList = document.getElementById("modList");
 
-    db.collection("mods").orderBy("created", "desc").onSnapshot((snapshot) => {
-      modList.innerHTML = ""; // Temizle
+    db.collection("mods").orderBy("description", "desc").onSnapshot((snapshot) => {
+      modList.innerHTML = "";
       snapshot.forEach((doc) => {
         const mod = doc.data();
         const card = `
           <div class="mod-card">
+            <img src="${mod.image}" alt="${mod.name}" class="mod-img">
             <h3>${mod.name}</h3>
             <p><strong>Kategori:</strong> ${mod.category}</p>
+            <p>${mod.description || "Açıklama bulunmuyor."}</p>
             <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
           </div>
         `;
