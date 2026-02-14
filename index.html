@@ -49,6 +49,19 @@
       margin-bottom: 10px;
     }
 
+    .download-btn {
+      display: inline-block;
+      background: royalblue;
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .download-btn:hover {
+      background: #0056d2;
+    }
+
     footer {
       background: #222;
       color: #aaa;
@@ -75,10 +88,10 @@
     <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
   </footer>
 
-  <!-- Firebase Modüler -->
+  <!-- 🔥 Firebase (gerçek zamanlı dinleme) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
@@ -91,38 +104,30 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     const modList = document.getElementById("modList");
 
-    async function loadMods() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "mods"));
-        modList.innerHTML = "";
-        querySnapshot.forEach((doc) => {
-          const mod = doc.data();
-          console.log("Mod bulundu:", mod); // kontrol için
-          const card = `
-            <div class="mod-card">
-              <img src="${mod.image}" alt="${mod.name}" class="mod-img">
-              <h3>${mod.name}</h3>
-              <p><strong>Kategori:</strong> ${mod.category}</p>
-              <p>${mod.description || "Açıklama bulunmuyor."}</p>
-              <a href="${mod.download}" target="_blank">İndir</a>
-            </div>
-          `;
-          modList.innerHTML += card;
-        });
+    // 🔹 Gerçek zamanlı Firestore verilerini dinle
+    const q = query(collection(db, "mods"), orderBy("created", "desc"));
+    onSnapshot(q, (snapshot) => {
+      modList.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const mod = doc.data();
+        const card = `
+          <div class="mod-card">
+            <img src="${mod.image}" alt="${mod.name}" class="mod-img">
+            <h3>${mod.name}</h3>
+            <p><strong>Kategori:</strong> ${mod.category}</p>
+            <p>${mod.description || "Açıklama bulunmuyor."}</p>
+            <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
+          </div>
+        `;
+        modList.innerHTML += card;
+      });
 
-        if (querySnapshot.empty) {
-          modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
-        }
-      } catch (error) {
-        console.error("Firestore'dan veri çekilemedi:", error);
-        modList.innerHTML = "<p>Veri alınamadı. Konsolu kontrol et.</p>";
+      if (snapshot.empty) {
+        modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
       }
-    }
-
-    loadMods();
+    });
   </script>
 </body>
 </html>
