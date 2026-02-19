@@ -1,220 +1,509 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kral Mods | FS25 Modları</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kral Mods — FS25 Mod İndir</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      margin: 0;
-      padding: 0;
-      color: #0b1a2b;
+    :root{
+      --bg:#ffffff;
+      --text:#0b1a2b;
+      --muted:#6b7280;
+      --accent:#0b72d1;
+      --card:#f8fafc;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      background:var(--accent);
+      color:#fff;
+      padding:28px 18px;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      box-shadow:0 2px 6px rgba(11,114,209,0.12);
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      background:#fff;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--accent);
+      box-shadow:0 2px 6px rgba(0,0,0,0.08);
+    }
+    .header-text h1{
+      margin:0;
+      font-size:20px;
+    }
+    .header-text p{margin:4px 0 0; color:rgba(230,233,239,0.9); font-size:13px}
+
+    .topbar{
+      padding:18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      max-width:1200px;
+      margin:0 auto;
     }
 
-    header {
-      background: #0b72d1;
-      color: white;
-      padding: 25px 10px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .search-wrap{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex:1;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 28px;
+    .search-wrap input[type="search"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #e6eef9;
+      background:#fff;
+      box-shadow:0 1px 2px rgba(11,114,209,0.03) inset;
+      font-size:14px;
     }
 
-    header p {
-      margin: 5px 0 0;
-      font-size: 15px;
-      color: #e6e9ef;
+    .categories{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      padding:12px 18px;
+      max-width:1200px;
+      margin:0 auto;
     }
 
-    .filter-buttons {
-      text-align: center;
-      margin-top: 15px;
+    .cat-btn{
+      background: #fff;
+      border:1px solid #e6eef9;
+      color:var(--accent);
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 1px 2px rgba(11,114,209,0.02);
+    }
+    .cat-btn.active{
+      background:var(--accent);
+      color:#fff;
+      border-color:var(--accent);
     }
 
-    .filter-buttons button {
-      background: white;
-      border: 1.8px solid #0b72d1;
-      color: #0b72d1;
-      padding: 8px 16px;
-      border-radius: 8px;
-      margin: 4px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-weight: 600;
+    main{max-width:1200px;margin:10px auto;padding:0 18px 60px}
+
+    .mod-container{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap:20px;
+      margin-top:10px;
     }
 
-    .filter-buttons button:hover,
-    .filter-buttons button.active {
-      background: #0b72d1;
-      color: white;
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      box-shadow:0 6px 18px rgba(11,26,43,0.06);
+      transition:transform .18s ease, box-shadow .18s ease;
+      overflow:hidden;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow:0 12px 26px rgba(11,26,43,0.08) }
+
+    .card img{
+      width:100%;
+      height:140px;
+      object-fit:cover;
+      border-radius:8px;
+      display:block;
+      margin-bottom:10px;
+      background:#eaeef6;
     }
 
-    .mod-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 30px 15px;
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:6px;
+      color:var(--muted);
+      font-size:12px;
     }
+    .meta .tag{ font-weight:600; color:var(--accent) }
+    .card h3{ margin:6px 0; font-size:16px; color:var(--text) }
+    .card p.desc{ margin:8px 0 12px; color:#3b4a59; font-size:14px; line-height:1.3 }
 
-    .mod-card {
-      background: #ffffff;
-      border-radius: 12px;
-      width: 270px;
-      padding: 15px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .download{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
     }
-
-    .mod-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      padding:8px 12px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
     }
+    .btn:hover{ background:#055bb0 }
 
-    .mod-img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 10px;
+    /* Mod Ekle form */
+    .add-form {
+      margin-top:28px;
+      background:#fff;
+      border-radius:10px;
+      padding:16px;
+      box-shadow:0 6px 18px rgba(11,26,43,0.04);
     }
-
-    h3 {
-      margin: 5px 0;
-      font-size: 18px;
-      color: #0b1a2b;
+    .row{ display:flex; gap:10px; flex-wrap:wrap; }
+    .field{ flex:1; min-width:200px; margin-bottom:10px; display:flex; flex-direction:column; }
+    .field label{ font-weight:600; font-size:13px; margin-bottom:6px; color:var(--muted) }
+    .field input, .field textarea, .field select {
+      padding:10px; border-radius:8px; border:1px solid #e6eef9; font-size:14px;
     }
+    .form-actions{ display:flex; gap:10px; align-items:center; margin-top:6px; }
+    .small-muted{ color:var(--muted); font-size:13px; }
 
-    p {
-      font-size: 14px;
-      color: #333;
-      margin: 4px 0;
+    footer{
+      border-top:1px solid #eef2f6;
+      margin-top:40px;
+      padding:28px 18px;
+      background:#fff;
+      color:var(--muted);
     }
+    .footer-inner{ max-width:1200px; margin:0 auto; display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; justify-content:space-between }
+    .about{ max-width:680px }
+    .contact a{ color:var(--accent); text-decoration:none; font-weight:600 }
 
-    .download-btn {
-      display: inline-block;
-      background: #0b72d1;
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-weight: 600;
-      margin-top: 8px;
-      transition: background 0.3s ease;
-    }
-
-    .download-btn:hover {
-      background: #0056d2;
-    }
-
-    footer {
-      background: #0b1a2b;
-      color: #c8d2e0;
-      text-align: center;
-      padding: 15px;
-      font-size: 14px;
-      margin-top: 40px;
+    @media (max-width:640px){
+      header{ padding:18px; }
+      .topbar{ flex-direction:column; align-items:stretch; gap:10px }
+      .categories{ padding-left:12px;padding-right:12px }
+      .row{ flex-direction:column; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>🚜 Kral Mods – FS25 Modları</h1>
-    <p>En yeni traktör, araç, yama ve skin modları burada!</p>
+    <div class="logo">KM</div>
+    <div class="header-text">
+      <h1>Kral Mods — FS25 Mod İndir</h1>
+      <p>Güncel traktör, araç, yama, harita ve skin modları</p>
+    </div>
   </header>
 
-  <div class="filter-buttons">
-    <button class="active" onclick="filterMods('Tümü')">Tümü</button>
-    <button onclick="filterMods('Araç')">Araç</button>
-    <button onclick="filterMods('Yama')">Yama</button>
-    <button onclick="filterMods('Skin')">Skin</button>
+  <div class="topbar">
+    <div class="search-wrap" style="max-width:1200px;margin:0 auto;">
+      <input id="searchInput" type="search" placeholder="Mod ara... (isim, açıklama veya id gir)" aria-label="Mod ara">
+      <div style="width:12px"></div>
+    </div>
+  </div>
+
+  <div class="categories" role="toolbar" aria-label="Kategori filtreleri">
+    <button class="cat-btn active" onclick="setCategory('Tümü')">Tümü</button>
+    <button class="cat-btn" onclick="setCategory('Traktör')">Traktörler</button>
+    <button class="cat-btn" onclick="setCategory('Biçerdöver')">Biçerdöverler</button>
+    <button class="cat-btn" onclick="setCategory('Ekipman')">Ekipmanlar</button>
+    <button class="cat-btn" onclick="setCategory('Harita')">Haritalar</button>
+    <button class="cat-btn" onclick="setCategory('Araç Yaması')">Araç Yaması</button>
+    <button class="cat-btn" onclick="setCategory('Skin')">Skin</button>
   </div>
 
   <main>
-    <div class="mod-container" id="modList">
-      <p>Modlar yükleniyor...</p>
+    <div id="modList" class="mod-container">
+      <div style="grid-column:1/-1;padding:18px;color:var(--muted)">Modlar yükleniyor...</div>
+    </div>
+
+    <!-- Mod Ekle Formu (Firebase'e kaydeder) -->
+    <div class="add-form" style="max-width:1200px;margin:26px auto;">
+      <h3 style="margin:0 0 8px">Yeni Mod Ekle</h3>
+      <p class="small-muted" style="margin:0 0 12px">Formu doldurup "Ekle" dediğinde mod Firebase Realtime Database'e kaydolur ve herkes görür.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="modName">Mod Adı</label>
+          <input id="modName" placeholder="Örn: John Deere 8R">
+        </div>
+
+        <div class="field">
+          <label for="modId">Mod ID (kısa, benzersiz)</label>
+          <input id="modId" placeholder="Örn: jd8r">
+        </div>
+
+        <div class="field">
+          <label for="modCategory">Kategori</label>
+          <select id="modCategory">
+            <option>Traktör</option>
+            <option>Biçerdöver</option>
+            <option>Ekipman</option>
+            <option>Harita</option>
+            <option>Araç Yaması</option>
+            <option>Skin</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field" style="flex:2">
+          <label for="modDesc">Açıklama</label>
+          <textarea id="modDesc" rows="2" placeholder="Kısa açıklama"></textarea>
+        </div>
+        <div class="field">
+          <label for="modImage">Resim Linki (tam URL)</label>
+          <input id="modImage" placeholder="https://...jpg">
+        </div>
+        <div class="field">
+          <label for="modDownload">İndirme Linki</label>
+          <input id="modDownload" placeholder="https://drive.google.com/...">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button id="addBtn" class="btn">Ekle</button>
+        <button id="clearLocal" style="background:#eee;color:#333;padding:8px 12px;border-radius:8px;border:0;cursor:pointer">Formu Temizle</button>
+        <div id="formStatus" style="margin-left:12px;color:var(--muted)"></div>
+      </div>
+    </div>
+
+    <hr style="margin:40px 0;border:none;border-top:1px solid #eef2f6">
+
+    <div class="footer-inner">
+      <div class="about">
+        <h3 style="margin:0 0 8px">🌾 Kral Mods Hakkında</h3>
+        <p style="margin:0 0 12px;color:var(--muted)">FS25 oyuncuları için en yeni ve kaliteli modların paylaşıldığı basit ve hızlı bir site. Tüm içerikler ücretsizdir ve topluluğun katkılarına açıktır.</p>
+      </div>
+
+      <div class="contact" style="min-width:200px">
+        <h4 style="margin:0 0 8px">✉️ İletişim</h4>
+        <p style="margin:0 0 6px">E-posta: <a href="mailto:kralmods@gmail.com">kralmods@gmail.com</a></p>
+        <p style="margin:0;color:var(--muted)">Sosyal: <span style="font-weight:600;color:var(--accent)">@kralmods3</span></p>
+      </div>
     </div>
   </main>
 
   <footer>
-    <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
+    <div style="max-width:1200px;margin:0 auto;text-align:center;color:var(--muted);font-size:13px">
+      © 2026 Kral Mods | Tüm hakları saklıdır.
+    </div>
   </footer>
 
-  <script>
-    const mods = [
-      {
-        name: "John Deere 8R",
-        category: "Araç",
-        description: "Güçlü ve modern bir traktör modu.",
-        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200",
-        download: "https://drive.google.com/uc?export=download&id=MOD_ID1"
-      },
-      {
-        name: "Claas 8900",
-        category: "Araç",
-        description: "Yüksek verimli biçerdöver paketi.",
-        image: "https://images.unsplash.com/photo-1602526218451-2f8f8b09bb68?w=1200",
-        download: "https://drive.google.com/uc?export=download&id=MOD_ID2"
-      },
-      {
-        name: "Gerçek Ses Paketi",
-        category: "Yama",
-        description: "Gerçek motor sesleri ekler.",
-        image: "https://images.unsplash.com/photo-1581092335471-26b2d94f8a2c?w=1200",
-        download: "https://drive.google.com/uc?export=download&id=MOD_ID3"
-      },
-      {
-        name: "Mavi Kabin Skin",
-        category: "Skin",
-        description: "John Deere için özel mavi kabin kaplaması.",
-        image: "https://images.unsplash.com/photo-1616628188469-4494ff28e61c?w=1200",
-        download: "https://drive.google.com/uc?export=download&id=MOD_ID4"
+  <!-- Firebase SDK + App code -->
+  <script type="module">
+    // -------------- firebaseConfig (senin verdiğin) --------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getDatabase, ref, push, onValue, serverTimestamp, set
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
+      authDomain: "kralmods.firebaseapp.com",
+      databaseURL: "https://kralmods-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "kralmods",
+      storageBucket: "kralmods.firebasestorage.app",
+      messagingSenderId: "158656794483",
+      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const modsRef = ref(db, 'modlar'); // veriler 'modlar' altında saklanacak
+
+    // ---- UI elemanları ----
+    const modListEl = document.getElementById('modList');
+    const searchInput = document.getElementById('searchInput');
+    const addBtn = document.getElementById('addBtn');
+    const formStatus = document.getElementById('formStatus');
+    const clearLocal = document.getElementById('clearLocal');
+
+    // Form elemanları
+    const modName = document.getElementById('modName');
+    const modId = document.getElementById('modId');
+    const modCategory = document.getElementById('modCategory');
+    const modDesc = document.getElementById('modDesc');
+    const modImage = document.getElementById('modImage');
+    const modDownload = document.getElementById('modDownload');
+
+    // kategori durumu / active class
+    let activeCategory = "Tümü";
+    function setCategory(cat){
+      // normalize mapping: button text -> internal category
+      const displayToInternal = {
+        "Tümü":"Tümü",
+        "Traktörler":"Traktör",
+        "Traktör":"Traktör",
+        "Biçerdöverler":"Biçerdöver",
+        "Biçerdöver":"Biçerdöver",
+        "Ekipmanlar":"Ekipman",
+        "Ekipman":"Ekipman",
+        "Haritalar":"Harita",
+        "Harita":"Harita",
+        "Araç Yaması":"Araç Yaması",
+        "Skin":"Skin"
+      };
+      activeCategory = displayToInternal[cat] || cat;
+      document.querySelectorAll('.cat-btn').forEach(btn=>{
+        const txt = btn.textContent.trim();
+        const val = displayToInternal[txt] || txt;
+        btn.classList.toggle('active', val === activeCategory);
+      });
+      renderList(); // yeniden göster
+    }
+
+    // basit HTML escape (güvenlik için)
+    function escapeHtml(s){
+      if(!s) return "";
+      return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+    }
+
+    // Veritabanından canlı olarak modları al ve yerel bir liste tut
+    let mods = []; // array of {id,name,category,...}
+    onValue(modsRef, snapshot => {
+      const val = snapshot.val();
+      mods = [];
+      if(val){
+        // val is object with keys
+        Object.keys(val).forEach(key => {
+          const item = val[key];
+          // ensure consistent shape and an id field
+          mods.push({
+            _key: key,
+            id: item.id || key,
+            name: item.name || '',
+            category: item.category || 'Diğer',
+            description: item.description || '',
+            image: item.image || '',
+            download: item.download || '',
+            createdAt: item.createdAt || 0
+          });
+        });
+        // newest first by createdAt if exists
+        mods.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
       }
-    ];
+      renderList();
+    }, err => {
+      console.error("DB read error:", err);
+      modListEl.innerHTML = '<div style="grid-column:1/-1;padding:18px;color:var(--muted)">Veriler alınırken hata oluştu.</div>';
+    });
 
-    const modList = document.getElementById("modList");
-    const buttons = document.querySelectorAll(".filter-buttons button");
+    // render fonksiyonu (arama + kategori)
+    function renderList(){
+      const q = (searchInput.value || "").trim().toLowerCase();
+      const filtered = mods.filter(m=>{
+        const inCategory = (activeCategory === "Tümü") || (m.category === activeCategory);
+        const inSearch = q === "" ||
+                         (m.name && m.name.toLowerCase().includes(q)) ||
+                         (m.description && m.description.toLowerCase().includes(q)) ||
+                         (m.id && m.id.toLowerCase().includes(q));
+        return inCategory && inSearch;
+      });
 
-    function showMods(list) {
-      modList.innerHTML = "";
-      if (list.length === 0) {
-        modList.innerHTML = "<p>Bu kategoride mod bulunmuyor.</p>";
+      modListEl.innerHTML = "";
+      if(filtered.length === 0){
+        modListEl.innerHTML = '<div style="grid-column:1/-1;padding:18px;color:var(--muted)">Aradığınız kriterlere uygun mod bulunamadı.</div>';
         return;
       }
-      list.forEach(mod => {
-        const card = `
-          <div class="mod-card">
-            <img src="${mod.image}" alt="${mod.name}" class="mod-img">
-            <h3>${mod.name}</h3>
-            <p><strong>Kategori:</strong> ${mod.category}</p>
-            <p>${mod.description}</p>
-            <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
+
+      filtered.forEach(m=>{
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img loading="lazy" src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" onerror="this.style.display='none'">
+          <div class="meta"><div>${escapeHtml(m.category)}</div><div class="tag">#${escapeHtml(m.id)}</div></div>
+          <h3>${escapeHtml(m.name)}</h3>
+          <p class="desc">${escapeHtml(m.description)}</p>
+          <div class="download">
+            <a class="btn" href="${escapeHtml(m.download || '#')}" target="_blank" rel="noopener">İndir</a>
           </div>
         `;
-        modList.innerHTML += card;
+        modListEl.appendChild(card);
       });
     }
 
-    function filterMods(category) {
-      buttons.forEach(btn => btn.classList.remove("active"));
-      document.querySelector(`button[onclick="filterMods('${category}')"]`).classList.add("active");
-      if (category === "Tümü") {
-        showMods(mods);
-      } else {
-        const filtered = mods.filter(mod => mod.category === category);
-        showMods(filtered);
-      }
-    }
+    // canlı arama
+    searchInput.addEventListener('input', () => renderList());
 
-    showMods(mods);
+    // ---- form gönderme (Firebase'e push) ----
+    addBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      formStatus.textContent = "";
+      const name = modName.value.trim();
+      const id_ = (modId.value || "").trim();
+      const category = modCategory.value;
+      const description = modDesc.value.trim();
+      const image = modImage.value.trim();
+      const download = modDownload.value.trim();
+
+      if(!name || !id_ || !download){
+        formStatus.style.color = 'crimson';
+        formStatus.textContent = "Lütfen Mod Adı, Mod ID ve İndirme linkini doldur.";
+        return;
+      }
+
+      addBtn.disabled = true;
+      addBtn.textContent = "Gönderiliyor...";
+
+      try {
+        // push new object to 'modlar'
+        const newRef = push(modsRef);
+        const payload = {
+          id: id_,
+          name: name,
+          category: category,
+          description: description,
+          image: image,
+          download: download,
+          createdAt: Date.now()
+        };
+        await set(newRef, payload); // set at generated key
+        formStatus.style.color = 'green';
+        formStatus.textContent = "Mod başarıyla eklendi!";
+        // temizle form
+        modName.value = ""; modId.value = ""; modDesc.value = ""; modImage.value = ""; modDownload.value = "";
+        // otomatik kategoriye dön
+        setCategory("Tümü");
+      } catch(err) {
+        console.error(err);
+        formStatus.style.color = 'crimson';
+        formStatus.textContent = "Gönderme sırasında hata oluştu.";
+      } finally {
+        addBtn.disabled = false;
+        addBtn.textContent = "Ekle";
+      }
+    });
+
+    clearLocal.addEventListener('click', (e)=>{
+      e.preventDefault();
+      modName.value = ""; modId.value = ""; modDesc.value = ""; modImage.value = ""; modDownload.value = "";
+      formStatus.textContent = "Form temizlendi.";
+    });
+
+    // initial category active and render
+    function initCategoryButtons(){
+      document.querySelectorAll('.cat-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          // use button text to set category (handles plural labels)
+          setCategory(btn.textContent.trim());
+        });
+      });
+      setCategory('Tümü');
+    }
+    initCategoryButtons();
+
   </script>
 
 </body>
