@@ -20,6 +20,28 @@
       text-align: center;
     }
 
+    .filter-buttons {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .filter-buttons button {
+      background: white;
+      border: 2px solid royalblue;
+      color: royalblue;
+      padding: 8px 15px;
+      border-radius: 8px;
+      margin: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .filter-buttons button:hover,
+    .filter-buttons button.active {
+      background: royalblue;
+      color: white;
+    }
+
     .mod-container {
       display: flex;
       flex-wrap: wrap;
@@ -75,8 +97,15 @@
 
   <header>
     <h1>🚜 Kral Mods – FS25 Modları</h1>
-    <p>En yeni traktör, araç, yama ve harita modları burada!</p>
+    <p>En yeni traktör, araç, yama ve skin modları burada!</p>
   </header>
+
+  <div class="filter-buttons">
+    <button class="active" onclick="filterMods('Tümü')">Tümü</button>
+    <button onclick="filterMods('Araç')">Araç</button>
+    <button onclick="filterMods('Yama')">Yama</button>
+    <button onclick="filterMods('Skin')">Skin</button>
+  </div>
 
   <main>
     <div class="mod-container" id="modList">
@@ -88,45 +117,76 @@
     <p>© 2026 Kral Mods | Tüm hakları saklıdır.</p>
   </footer>
 
-  <!-- 🔥 Firebase (created alanı olmadan, garanti çalışan sürüm) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  <script>
+    // 🔹 Modlarını buraya ekle
+    const mods = [
+      {
+        name: "John Deere 8R",
+        category: "Araç",
+        description: "Güçlü ve modern bir traktör modu.",
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200",
+        download: "https://drive.google.com/uc?export=download&id=MOD_ID1"
+      },
+      {
+        name: "Claas 8900",
+        category: "Araç",
+        description: "Yüksek verimli biçerdöver paketi.",
+        image: "https://images.unsplash.com/photo-1602526218451-2f8f8b09bb68?w=1200",
+        download: "https://drive.google.com/uc?export=download&id=MOD_ID2"
+      },
+      {
+        name: "Gerçek Ses Paketi",
+        category: "Yama",
+        description: "Gerçek motor sesleri ekler.",
+        image: "https://images.unsplash.com/photo-1581092335471-26b2d94f8a2c?w=1200",
+        download: "https://drive.google.com/uc?export=download&id=MOD_ID3"
+      },
+      {
+        name: "Mavi Kabin Skin",
+        category: "Skin",
+        description: "John Deere için özel mavi kabin kaplaması.",
+        image: "https://images.unsplash.com/photo-1616628188469-4494ff28e61c?w=1200",
+        download: "https://drive.google.com/uc?export=download&id=MOD_ID4"
+      }
+    ];
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
-      authDomain: "kralmods.firebaseapp.com",
-      projectId: "kralmods",
-      storageBucket: "kralmods.appspot.com",
-      messagingSenderId: "158656794483",
-      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
     const modList = document.getElementById("modList");
+    const buttons = document.querySelectorAll(".filter-buttons button");
 
-    // 🔹 created alanı olmadan tüm modları dinle
-    onSnapshot(collection(db, "mods"), (snapshot) => {
+    function showMods(list) {
       modList.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const mod = doc.data();
+      if (list.length === 0) {
+        modList.innerHTML = "<p>Bu kategoride mod bulunmuyor.</p>";
+        return;
+      }
+      list.forEach(mod => {
         const card = `
           <div class="mod-card">
             <img src="${mod.image}" alt="${mod.name}" class="mod-img">
             <h3>${mod.name}</h3>
             <p><strong>Kategori:</strong> ${mod.category}</p>
-            <p>${mod.description || "Açıklama bulunmuyor."}</p>
+            <p>${mod.description}</p>
             <a href="${mod.download}" target="_blank" class="download-btn">İndir</a>
           </div>
         `;
         modList.innerHTML += card;
       });
+    }
 
-      if (snapshot.empty) {
-        modList.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
+    function filterMods(category) {
+      buttons.forEach(btn => btn.classList.remove("active"));
+      document.querySelector(`button[onclick="filterMods('${category}')"]`).classList.add("active");
+      if (category === "Tümü") {
+        showMods(mods);
+      } else {
+        const filtered = mods.filter(mod => mod.category === category);
+        showMods(filtered);
       }
-    });
+    }
+
+    // Sayfa açıldığında tüm modları göster
+    showMods(mods);
   </script>
+
 </body>
 </html>
