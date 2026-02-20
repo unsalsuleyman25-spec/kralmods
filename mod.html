@@ -71,7 +71,7 @@
     const modId = params.get("id");
 
     if (modId) {
-      const modRef = ref(db, 'mods/' + modId);
+      const modRef = ref(db, 'modlar/' + modId);
       get(modRef).then(snapshot => {
         if (snapshot.exists()) {
           const mod = snapshot.val();
