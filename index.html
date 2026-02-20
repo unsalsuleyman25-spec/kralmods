@@ -95,7 +95,7 @@
 
     const container = document.getElementById("modList");
 
-    onValue(ref(db, "mods"), (snapshot) => {
+    onValue(ref(db, "modlar"), (snapshot) => {
       if (!snapshot.exists()) {
         container.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
         return;
