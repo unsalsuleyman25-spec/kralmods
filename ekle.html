@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Yeni Mod Ekle - Kral Mods</title>
+  <style>
+    body{
+      font-family:sans-serif;
+      background:#f9fafb;
+      margin:0;
+      padding:0;
+    }
+    header{
+      background:#0b72d1;
+      color:white;
+      text-align:center;
+      padding:15px;
+      font-size:1.4em;
+      font-weight:bold;
+    }
+    form{
+      max-width:500px;
+      background:white;
+      margin:40px auto;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    }
+    label{
+      display:block;
+      margin-top:10px;
+      font-weight:bold;
+      color:#0b1a2b;
+    }
+    input, textarea{
+      width:100%;
+      padding:8px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      margin-top:4px;
+    }
+    button{
+      margin-top:15px;
+      background:#0b72d1;
+      color:white;
+      padding:10px 16px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:1em;
+    }
+    button:hover{
+      background:#095aa7;
+    }
+  </style>
+</head>
+<body>
+  <header>Yeni Mod Ekle 🚀</header>
+
+  <form id="modForm">
+    <label>Mod Adı</label>
+    <input type="text" id="name" required placeholder="Örn: John Deere 8R">
+
+    <label>Mod ID (boşluksuz)</label>
+    <input type="text" id="id" required placeholder="Örn: jd8r">
+
+    <label>Kategori</label>
+    <input type="text" id="category" required placeholder="Örn: Traktör">
+
+    <label>Açıklama</label>
+    <textarea id="description" rows="3" placeholder="Kısa açıklama..."></textarea>
+
+    <label>Resim URL</label>
+    <input type="url" id="image" required placeholder="https://...">
+
+    <label>İndirme Linki</label>
+    <input type="url" id="download" required placeholder="https://...">
+
+    <button type="submit">Ekle</button>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
+      authDomain: "kralmods.firebaseapp.com",
+      databaseURL: "https://kralmods-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "kralmods",
+      storageBucket: "kralmods.firebasestorage.app",
+      messagingSenderId: "158656794483",
+      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById("modForm");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById("id").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const category = document.getElementById("category").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const image = document.getElementById("image").value.trim();
+      const download = document.getElementById("download").value.trim();
+
+      if (!id || !name || !category || !image || !download) {
+        alert("Lütfen tüm alanları doldur!");
+        return;
+      }
+
+      set(ref(db, "modlar/" + id), {
+        id, name, category, description, image, download
+      })
+      .then(() => {
+        alert("✅ Mod başarıyla eklendi!");
+        form.reset();
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("❌ Hata oluştu: " + error.message);
+      });
+    });
+  </script>
+</body>
+</html>
