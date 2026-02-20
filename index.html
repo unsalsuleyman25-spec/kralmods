@@ -1,80 +1,106 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kral Mods — FS25 Mod İndir</title>
   <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0b1a2b;
-      --muted:#6b7280;
-      --accent:#0b72d1;
+    :root {
+      --bg: #ffffff;
+      --text: #0b1a2b;
+      --muted: #6b7280;
+      --accent: #0b72d1;
+      --card-bg: #f8f9fa;
     }
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:sans-serif;
-      margin:0;
-      padding:0;
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
-    header{
-      background:var(--accent);
-      color:white;
-      padding:15px;
-      text-align:center;
-      font-size:1.5em;
-      font-weight:bold;
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.6em;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-    #modList{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:16px;
-      padding:20px;
-      max-width:1100px;
-      margin:auto;
+
+    #modList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
     }
-    .mod-card{
-      background:white;
-      border-radius:12px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.08);
-      overflow:hidden;
-      transition:transform 0.2s;
-      cursor:pointer;
+
+    .mod-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
     }
-    .mod-card:hover{
-      transform:translateY(-4px);
+
+    .mod-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
     }
-    .mod-card img{
-      width:100%;
-      height:180px;
-      object-fit:cover;
+
+    .mod-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-bottom: 1px solid #ddd;
     }
-    .mod-card h3{
-      margin:10px;
-      color:var(--accent);
-      font-size:1.1em;
+
+    .mod-card-content {
+      padding: 14px;
     }
-    .mod-card p{
-      margin:0 10px 10px;
-      color:var(--muted);
-      font-size:0.9em;
+
+    .mod-card h3 {
+      color: var(--accent);
+      margin: 0 0 8px;
+      font-size: 1.1em;
     }
-    .mod-card a{
-      display:inline-block;
-      margin:10px;
-      background:var(--accent);
-      color:white;
-      padding:8px 14px;
-      border-radius:6px;
-      text-decoration:none;
-      font-weight:bold;
+
+    .mod-card p {
+      color: var(--muted);
+      margin: 4px 0;
+      font-size: 0.9em;
+    }
+
+    .mod-card a {
+      display: inline-block;
+      margin-top: 8px;
+      background: var(--accent);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: var(--muted);
+      border-top: 1px solid #eee;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
   <header>Kral Mods 🚜</header>
   <div id="modList">Yükleniyor...</div>
+
+  <footer>© 2026 Kral Mods — FS25 Modları</footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -92,12 +118,11 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
     const container = document.getElementById("modList");
 
     onValue(ref(db, "modlar"), (snapshot) => {
       if (!snapshot.exists()) {
-        container.innerHTML = "<p>Henüz mod eklenmemiş.</p>";
+        container.innerHTML = "<p style='text-align:center;color:gray;'>Henüz mod eklenmemiş.</p>";
         return;
       }
 
@@ -106,10 +131,12 @@
         const mod = child.val();
         container.innerHTML += `
           <div class="mod-card" onclick="location.href='mod.html?id=${mod.id}'">
-            <img src="${mod.image}" alt="${mod.name}">
-            <h3>${mod.name}</h3>
-            <p>Kategori: ${mod.category || "Bilinmiyor"}</p>
-            <a href="${mod.download}" target="_blank">📥 İndir</a>
+            <img src="${mod.image || 'https://via.placeholder.com/400x200?text=Resim+Yok'}" alt="${mod.name}">
+            <div class="mod-card-content">
+              <h3>${mod.name || 'İsimsiz Mod'}</h3>
+              <p>Kategori: ${mod.category || 'Bilinmiyor'}</p>
+              <a href="${mod.download || '#'}" target="_blank">📥 İndir</a>
+            </div>
           </div>
         `;
       });
