@@ -52,22 +52,21 @@
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     const firebaseConfig = {
-      apiKey: "API_KEYİN",
-      authDomain: "PROJE_ADIN.firebaseapp.com",
-      databaseURL: "https://PROJE_ADIN-default-rtdb.firebaseio.com",
-      projectId: "PROJE_ADIN",
-      storageBucket: "PROJE_ADIN.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
+      apiKey: "AIzaSyCuwqnkVf5GUoP-FBdBw6-VmVmZmlTDRcs",
+      authDomain: "kralmods.firebaseapp.com",
+      databaseURL: "https://kralmods-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "kralmods",
+      storageBucket: "kralmods.firebasestorage.app",
+      messagingSenderId: "158656794483",
+      appId: "1:158656794483:web:64efb0e566c7b0b8747f06"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // URL'den id al
     const params = new URLSearchParams(window.location.search);
     const modId = params.get("id");
 
