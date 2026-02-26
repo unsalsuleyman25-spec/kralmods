@@ -7,7 +7,8 @@
     "image": "https://example.com",
     "download": "https://example.com",
     "version": "1.0",
-    "addedAt": "2026-02-26"
+    "addedAt": "2026-02-26",
+    "downloads": 0
   },
   {
     "id": "fs25_basak_redpower",
@@ -18,6 +19,7 @@
     "download": "FS25_Basak_RedPower.zip",
     "version": "1.0",
     "author": "Kral Mods",
-    "addedAt": "2026-02-26"
+    "addedAt": "2026-02-26",
+    "downloads": 0
   }
 ]
