@@ -1,241 +1,171 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin | Kral Mods</title>
-  <style>
-    :root{
-      --bg:#f6f9ff; --card:#fff; --text:#0b1a2b; --muted:#6b7280;
-      --accent:#0b72d1; --border:#e6eefc; --shadow: 0 10px 30px rgba(11,114,209,.12);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:820px;margin:0 auto;padding:24px}
-    .card{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-    h1{margin:0 0 6px;font-size:20px}
-    p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.4}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media(max-width:720px){.grid{grid-template-columns:1fr}}
-    label{font-size:12px;color:var(--muted);display:block;margin:10px 0 6px}
-    input, textarea, select{
-      width:100%;padding:11px 12px;border-radius:14px;border:1px solid var(--border);background:#fff;color:var(--text);outline:none
-    }
-    textarea{min-height:90px;resize:vertical}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-    .btn{
-      padding:11px 12px;border-radius:14px;border:1px solid var(--border);
-      background:linear-gradient(135deg,var(--accent),#0aa2ff);
-      color:#fff;text-decoration:none;font-weight:800;font-size:13px;cursor:pointer
-    }
-    .btn.ghost{background:#fff;color:var(--accent)}
-    .note{margin-top:12px;padding:12px;border-radius:14px;border:1px dashed rgba(11,114,209,.35);background:rgba(255,255,255,.7);color:var(--muted);font-size:12px}
-    .log{margin-top:12px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background:#0b1a2b;color:#e5e7eb;padding:12px;border-radius:14px;white-space:pre-wrap;min-height:68px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin | Kral Mods</title>
+
+<style>
+body{
+  font-family:system-ui;
+  background:#f6f9ff;
+  padding:30px;
+}
+.card{
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.05);
+  margin-bottom:20px;
+}
+input, textarea, select{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+}
+button{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.primary{
+  background:#0b72d1;
+  color:white;
+}
+.danger{
+  background:#e63946;
+  color:white;
+}
+.mod-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid #eee;
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>🔒 Admin — Yeni Mod Ekle</h1>
-      <p>
-        Firebase yok. Modlar <b>mods.json</b> dosyasına kaydedilir. Buradan ekleyince GitHub’a otomatik commit atar.
-        (GitHub Pages, tarayıcıdan dosya yazamadığı için GitHub API kullanıyoruz.) :contentReference[oaicite:3]{index=3}
-      </p>
 
-      <div class="grid">
-        <div>
-          <label>GitHub Kullanıcı Adı (owner)</label>
-          <input id="owner" value="unsalsuleyman25-spec" />
-        </div>
-        <div>
-          <label>Repo Adı</label>
-          <input id="repo" value="kralmods" />
-        </div>
-      </div>
+<div class="card">
+<h2>Yeni Mod Ekle</h2>
 
-      <label>GitHub Token (Fine-grained PAT)</label>
-      <input id="token" type="password" placeholder="github_pat_..." />
-      <div class="note">
-        Token’ı dosyaya gömmüyoruz. En güvenlisi: her eklemede buraya yapıştır. Token için sadece bu repo’da
-        <b>Contents: Read and write</b> yetkisi ver. :contentReference[oaicite:4]{index=4}
-      </div>
+<input id="name" placeholder="Mod Adı">
+<input id="id" placeholder="Mod ID (boşluksuz)">
+<select id="category">
+<option>Traktör</option>
+<option>Harita</option>
+<option>Ekipman</option>
+<option>Skin</option>
+<option>Yama</option>
+<option>Diğer</option>
+</select>
+<textarea id="description" placeholder="Açıklama"></textarea>
+<input id="download" placeholder="İndirme Linki">
+<input id="image" placeholder="Resim URL (isteğe bağlı)">
+<button class="primary" onclick="addMod()">Mod Ekle</button>
+</div>
 
-      <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
-
-      <div class="grid">
-        <div>
-          <label>Mod Adı</label>
-          <input id="name" placeholder="Örn: John Deere 8R" />
-        </div>
-        <div>
-          <label>Mod ID (boşluksuz)</label>
-          <input id="id" placeholder="örn: jd8r" />
-        </div>
-
-        <div>
-          <label>Kategori</label>
-          <select id="category">
-            <option>Traktör</option>
-            <option>Harita</option>
-            <option>Ekipman</option>
-            <option>Skin</option>
-            <option>Yama</option>
-            <option>Diğer</option>
-          </select>
-        </div>
-        <div>
-          <label>Versiyon</label>
-          <input id="version" placeholder="örn: 1.0" />
-        </div>
-
-        <div>
-          <label>Yapımcı</label>
-          <input id="author" placeholder="örn: Kral Mods" />
-        </div>
-        <div>
-          <label>Resim (URL veya dosya adı)</label>
-          <input id="image" placeholder="örn: https://... veya KM-logo.png" />
-        </div>
-      </div>
-
-      <label>Açıklama</label>
-      <textarea id="description" placeholder="Kısa ve net açıklama…"></textarea>
-
-      <label>İndirme Linki (URL veya repo dosyası)</label>
-      <input id="download" placeholder="örn: https://... veya FS25_Basak_RedPower.zip" />
-
-      <div class="row">
-        <button class="btn" id="save">Modu Ekle (JSON’a kaydet)</button>
-        <a class="btn ghost" href="index.html">← Siteye dön</a>
-      </div>
-
-      <div id="log" class="log">Hazır.</div>
-    </div>
-  </div>
+<div class="card">
+<h2>Mevcut Modlar</h2>
+<div id="modList"></div>
+</div>
 
 <script>
-  const $ = (s)=>document.querySelector(s);
-  const log = (m)=>{ $("#log").textContent = m; };
 
-  const b64encode = (str) => btoa(unescape(encodeURIComponent(str)));
-  const b64decode = (b64) => decodeURIComponent(escape(atob(b64)));
+const owner = "unsalsuleyman25-spec";
+const repo = "kralmods";
 
-  async function ghGetFile({owner, repo, path, token}){
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-    const r = await fetch(url, {
-      headers: {
-        "Accept":"application/vnd.github+json",
-        "Authorization": `Bearer ${token}`
-      }
-    });
-    const data = await r.json();
-    if(!r.ok) throw new Error(data?.message || "Dosya okunamadı");
-    return data; // {content, sha, ...}
-  }
+function getToken(){
+  return prompt("GitHub Token gir:");
+}
 
-  async function ghPutFile({owner, repo, path, token, contentText, sha, message}){
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-    const body = {
-      message,
-      content: b64encode(contentText),
-      sha
-    };
-    const r = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Accept":"application/vnd.github+json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(body)
-    });
-    const data = await r.json();
-    if(!r.ok) throw new Error(data?.message || "Kaydedilemedi");
-    return data;
-  }
-
-  function todayISO(){
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const dd = String(d.getDate()).padStart(2,"0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  $("#save").addEventListener("click", async ()=>{
-    try{
-      const owner = $("#owner").value.trim();
-      const repo  = $("#repo").value.trim();
-      const token = $("#token").value.trim();
-
-      if(!owner || !repo || !token) throw new Error("Owner/Repo/Token boş olamaz.");
-
-      const name = $("#name").value.trim();
-      const id = $("#id").value.trim();
-      const category = $("#category").value.trim();
-      const version = $("#version").value.trim();
-      const author = $("#author").value.trim();
-      const image = $("#image").value.trim() || "KM-logo.png";
-      const description = $("#description").value.trim();
-      const download = $("#download").value.trim();
-
-      if(!name || !id || !category || !download) throw new Error("Mod Adı, Mod ID, Kategori ve İndirme Linki zorunlu.");
-
-      log("mods.json okunuyor…");
-
-      const file = await ghGetFile({owner, repo, path:"mods.json", token});
-      const jsonText = b64decode(file.content.replace(/\n/g,""));
-      let arr = [];
-      try{ arr = JSON.parse(jsonText); }catch{ arr = []; }
-      if(!Array.isArray(arr)) arr = [];
-
-      if(arr.some(x => (x.id||"") === id)){
-        throw new Error("Bu Mod ID zaten var. Farklı bir ID yaz.");
-      }
-
-      const item = {
-        id, name, category,
-        description,
-        image,
-        download,
-        version: version || undefined,
-        author: author || undefined,
-        addedAt: todayISO()
-      };
-
-      // undefined alanları temizle
-      Object.keys(item).forEach(k => item[k] === undefined && delete item[k]);
-
-      arr.unshift(item);
-
-      const newText = JSON.stringify(arr, null, 2);
-
-      log("GitHub’a kaydediliyor (commit)…");
-
-      await ghPutFile({
-        owner, repo, path:"mods.json", token,
-        contentText: newText,
-        sha: file.sha,
-        message: `Add mod: ${id}`
-      });
-
-      log("✅ Tamam! Mod eklendi. Şimdi index.html’de görünecek.");
-
-      // Formu temizle
-      $("#name").value = "";
-      $("#id").value = "";
-      $("#description").value = "";
-      $("#download").value = "";
-      $("#version").value = "";
-      $("#author").value = "";
-      $("#image").value = "";
-      $("#category").value = "Traktör";
-    }catch(e){
-      log("❌ Hata: " + (e?.message || e));
-      console.error(e);
-    }
+async function getMods(token){
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/mods.json`,{
+    headers:{Authorization:`Bearer ${token}`}
   });
+  const data = await res.json();
+  const content = atob(data.content);
+  return {mods:JSON.parse(content), sha:data.sha};
+}
+
+async function updateMods(token,mods,sha,message){
+  await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/mods.json`,{
+    method:"PUT",
+    headers:{
+      Authorization:`Bearer ${token}`,
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      message:message,
+      content:btoa(JSON.stringify(mods,null,2)),
+      sha:sha
+    })
+  });
+}
+
+async function addMod(){
+  const token=getToken();
+  if(!token)return;
+
+  const {mods,sha}=await getMods(token);
+
+  const newMod={
+    id:document.getElementById("id").value,
+    name:document.getElementById("name").value,
+    category:document.getElementById("category").value,
+    description:document.getElementById("description").value,
+    download:document.getElementById("download").value,
+    image:document.getElementById("image").value || "KM-logo.png",
+    addedAt:new Date().toISOString().split("T")[0]
+  };
+
+  mods.unshift(newMod);
+
+  await updateMods(token,mods,sha,"Add mod: "+newMod.id);
+
+  alert("Mod eklendi!");
+  location.reload();
+}
+
+async function deleteMod(id){
+  const token=getToken();
+  if(!token)return;
+
+  const {mods,sha}=await getMods(token);
+
+  const filtered=mods.filter(m=>m.id!==id);
+
+  await updateMods(token,filtered,sha,"Delete mod: "+id);
+
+  alert("Mod silindi!");
+  location.reload();
+}
+
+async function loadMods(){
+  const res=await fetch("mods.json?cache="+Date.now());
+  const mods=await res.json();
+
+  const list=document.getElementById("modList");
+  list.innerHTML="";
+
+  mods.forEach(mod=>{
+    const div=document.createElement("div");
+    div.className="mod-item";
+    div.innerHTML=`
+      <div>${mod.name} (${mod.id})</div>
+      <button class="danger" onclick="deleteMod('${mod.id}')">Sil</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+loadMods();
+
 </script>
+
 </body>
 </html>
