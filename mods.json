@@ -1,5 +1,15 @@
 [
   {
+    "id": "test1",
+    "name": "Test Traktör",
+    "category": "Traktör",
+    "description": "Bu bir test modudur",
+    "image": "https://example.com",
+    "download": "https://example.com",
+    "version": "1.0",
+    "addedAt": "2026-02-26"
+  },
+  {
     "id": "fs25_basak_redpower",
     "name": "FS25 Başak RedPower",
     "category": "Traktör",
