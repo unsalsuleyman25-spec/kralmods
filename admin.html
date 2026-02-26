@@ -46,6 +46,19 @@ button{
   border-bottom:1px solid #eee;
 }
 </style>
+
+<script>
+// 🔒 BURAYI DEĞİŞTİREBİLİRSİN
+const ADMIN_PASSWORD = "kralmods2026";
+
+const input = prompt("Admin şifresini gir:");
+
+if(input !== ADMIN_PASSWORD){
+  document.write("<h2 style='text-align:center;margin-top:100px;'>Yetkisiz erişim.</h2>");
+  throw new Error("Unauthorized");
+}
+</script>
+
 </head>
 
 <body>
