@@ -1,1 +1,49 @@
-Upgrade mod detail page design
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mod Detayı | Kral Mods</title>
+</head>
+<body>
+
+<div id="content"></div>
+
+<script>
+function getParam(name){
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
+async function loadMod(){
+  const id = getParam("id");
+  if(!id){
+    document.getElementById("content").innerHTML="Mod bulunamadı.";
+    return;
+  }
+
+  const res = await fetch("mods.json?cache=" + Date.now());
+  const mods = await res.json();
+
+  const mod = mods.find(m=>m.id===id);
+
+  if(!mod){
+    document.getElementById("content").innerHTML="Mod bulunamadı.";
+    return;
+  }
+
+  document.getElementById("content").innerHTML = `
+    <h1>${mod.name}</h1>
+    <p>Kategori: ${mod.category}</p>
+    <p>${mod.description}</p>
+    <a href="${mod.download}" target="_blank">İndir</a>
+    <br><br>
+    <a href="index.html">← Geri dön</a>
+  `;
+}
+
+loadMod();
+</script>
+
+</body>
+</html>
