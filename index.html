@@ -1,240 +1,198 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kral Mods — FS25 Mod İndir</title>
-  <style>
-    :root{
-      --bg:#f6f9ff;
-      --card:#ffffff;
-      --text:#0b1a2b;
-      --muted:#6b7280;
-      --accent:#0b72d1;
-      --accent2:#0aa2ff;
-      --border:#e6eefc;
-      --shadow: 0 10px 30px rgba(11,114,209,.12);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background: radial-gradient(1200px 500px at 20% -10%, rgba(10,162,255,.18), transparent 55%),
-                  radial-gradient(1200px 500px at 90% 0%, rgba(11,114,209,.16), transparent 60%),
-                  var(--bg);
-    }
-    .wrap{max-width:1100px; margin:0 auto; padding:24px;}
-    header{
-      display:flex; gap:14px; align-items:center; justify-content:space-between;
-      padding:16px 18px; background:rgba(255,255,255,.75);
-      border:1px solid var(--border); border-radius: var(--radius);
-      box-shadow: var(--shadow); backdrop-filter: blur(10px);
-      position: sticky; top: 12px; z-index: 20;
-    }
-    .brand{display:flex; gap:12px; align-items:center}
-    .brand img{width:42px; height:42px; border-radius:12px; object-fit:cover; border:1px solid var(--border)}
-    .brand h1{font-size:18px; margin:0; line-height:1.1}
-    .brand p{margin:2px 0 0; color:var(--muted); font-size:12px}
-    .tools{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
-    .input, select{
-      padding:11px 12px; border-radius:14px; border:1px solid var(--border);
-      background:#fff; color:var(--text); outline:none;
-      min-width: 220px;
-    }
-    select{min-width:180px}
-    .btn{
-      padding:11px 12px; border-radius:14px; border:1px solid var(--border);
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color:white; text-decoration:none; font-weight:700; font-size:13px;
-      display:inline-flex; align-items:center; gap:8px;
-      box-shadow: 0 10px 22px rgba(11,114,209,.20);
-      white-space:nowrap;
-    }
-    .btn.ghost{
-      background:#fff; color:var(--accent); box-shadow:none;
-    }
-    .grid{
-      display:grid; grid-template-columns: repeat(3, 1fr);
-      gap:16px; margin-top:18px;
-    }
-    @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 620px){
-      .grid{grid-template-columns: 1fr;}
-      .input{min-width: 100%}
-      header{position:static}
-      .tools{justify-content:stretch}
-      select{min-width: 100%}
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kral Mods — FS25 Mod İndir</title>
 
-    .card{
-      background: rgba(255,255,255,.82);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      display:flex; flex-direction:column;
-      min-height: 360px;
-    }
-    .thumb{height:160px; background:#eaf2ff; overflow:hidden}
-    .thumb img{width:100%; height:100%; object-fit:cover; display:block}
-    .content{padding:14px 14px 12px; display:flex; flex-direction:column; gap:10px; flex:1}
-    .row{display:flex; gap:10px; align-items:flex-start; justify-content:space-between}
-    .title{font-size:16px; margin:0}
-    .badge{
-      font-size:11px; font-weight:700; color:var(--accent);
-      background: rgba(11,114,209,.10);
-      border:1px solid rgba(11,114,209,.18);
-      padding:6px 10px; border-radius:999px; white-space:nowrap;
-    }
-    .desc{margin:0; color:var(--muted); font-size:13px; line-height:1.35; flex:1}
-    .meta{display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:12px}
-    .actions{display:flex; gap:10px; margin-top:6px}
-    .actions a{
-      flex:1; text-align:center; padding:11px 12px; border-radius:14px;
-      border:1px solid var(--border); text-decoration:none; font-weight:800; font-size:13px;
-    }
-    .actions a.primary{
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color:white; border-color: transparent;
-    }
-    .actions a.secondary{
-      background:#fff; color:var(--accent);
-    }
-    .footer{
-      margin:26px 0 8px;
-      color:var(--muted); font-size:12px; text-align:center;
-    }
-    .empty{
-      margin-top:18px;
-      padding:18px; border-radius: var(--radius);
-      border:1px dashed rgba(11,114,209,.35);
-      background: rgba(255,255,255,.7);
-      color: var(--muted);
-    }
-  </style>
+<style>
+:root{
+  --bg:#f6f9ff;
+  --card:#ffffff;
+  --text:#0b1a2b;
+  --muted:#6b7280;
+  --accent:#0b72d1;
+  --accent2:#0aa2ff;
+  --border:#e6eefc;
+  --shadow: 0 10px 30px rgba(11,114,209,.12);
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family: system-ui;
+  color:var(--text);
+  background: radial-gradient(1200px 500px at 20% -10%, rgba(10,162,255,.18), transparent 55%), var(--bg);
+}
+
+.wrap{max-width:1100px; margin:0 auto; padding:24px;}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 18px;
+  background:#fff;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.brand h1{margin:0;font-size:18px}
+.brand p{margin:0;font-size:12px;color:var(--muted)}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:20px;
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr;}
+}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(11,114,209,.2);
+}
+
+.thumb{
+  height:160px;
+  background:#eaf2ff;
+}
+
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.content{
+  padding:15px;
+}
+
+.title{margin:0 0 6px}
+
+.badge{
+  font-size:11px;
+  color:var(--accent);
+  font-weight:bold;
+}
+
+.desc{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+}
+
+.actions a{
+  flex:1;
+  text-align:center;
+  padding:10px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+}
+
+.secondary{
+  background:#fff;
+  border:1px solid var(--border);
+  color:var(--accent);
+}
+
+.new-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#0b72d1;
+  color:white;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 8px 20px rgba(11,114,209,.3);
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <img src="KM-logo.png" alt="Kral Mods">
-        <div>
-          <h1>Kral Mods 🚜</h1>
-          <p>FS25 mod indir — temiz, hızlı, mobil uyumlu</p>
+
+<div class="wrap">
+
+<header>
+  <div class="brand">
+    <h1>Kral Mods 🚜</h1>
+    <p>FS25 mod indir — temiz, hızlı</p>
+  </div>
+  <a href="admin.html">🔒 Admin</a>
+</header>
+
+<div id="grid" class="grid"></div>
+
+</div>
+
+<script>
+async function loadMods(){
+  const res = await fetch("mods.json?cache="+Date.now());
+  const mods = await res.json();
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  mods.forEach((mod,index)=>{
+
+    const card = document.createElement("div");
+    card.className="card";
+
+    card.innerHTML = `
+      ${index===0 ? `<div class="new-badge">EN YENİ</div>` : ""}
+
+      <div class="thumb">
+        <img src="${mod.image || 'KM-logo.png'}">
+      </div>
+
+      <div class="content">
+        <h3 class="title">${mod.name}</h3>
+        <div class="badge">${mod.category}</div>
+        <div class="desc">${mod.description}</div>
+
+        <div class="actions">
+          <a class="secondary" href="mod.html?id=${mod.id}">Detay</a>
+          <a class="primary" href="${mod.download}" target="_blank">İndir</a>
         </div>
       </div>
+    `;
 
-      <div class="tools">
-        <input id="q" class="input" placeholder="Mod ara… (örn: John Deere)" />
-        <select id="cat">
-          <option value="all">Tüm Kategoriler</option>
-        </select>
-        <a class="btn ghost" href="admin.html" title="Sadece sen">🔒 Admin</a>
-      </div>
-    </header>
+    grid.appendChild(card);
+  });
+}
 
-    <div id="status" class="empty">Yükleniyor…</div>
-    <div id="grid" class="grid" style="display:none"></div>
+loadMods();
+</script>
 
-    <div class="footer">© 2026 Kral Mods — FS25 Modları</div>
-  </div>
-
-  <script>
-    const $ = (s)=>document.querySelector(s);
-
-    const state = { mods: [], filtered: [] };
-
-    function normalize(str){
-      return (str||"").toString().toLowerCase().trim();
-    }
-
-    function buildCategories(mods){
-      const cats = Array.from(new Set(mods.map(m=>m.category).filter(Boolean))).sort((a,b)=>a.localeCompare(b,'tr'));
-      const sel = $("#cat");
-      sel.innerHTML = `<option value="all">Tüm Kategoriler</option>` + cats.map(c=>`<option value="${c}">${c}</option>`).join("");
-    }
-
-    function render(mods){
-      const grid = $("#grid");
-      const status = $("#status");
-
-      if(!mods.length){
-        grid.style.display = "none";
-        status.style.display = "block";
-        status.textContent = "Henüz hiç mod yok. Admin sayfasından ekleyebilirsin.";
-        return;
-      }
-
-      status.style.display = "none";
-      grid.style.display = "grid";
-      grid.innerHTML = mods.map(m=>{
-        const img = m.image || "KM-logo.png";
-        const ver = m.version ? `Sürüm: ${m.version}` : "";
-        const auth = m.author ? `Yapımcı: ${m.author}` : "";
-        const meta = [ver, auth].filter(Boolean).join(" • ");
-        return `
-          <article class="card">
-            <div class="thumb">
-              <img src="${img}" alt="${(m.name||"").replaceAll('"','&quot;')}">
-            </div>
-            <div class="content">
-              <div class="row">
-                <h3 class="title">${m.name || "İsimsiz Mod"}</h3>
-                <div class="badge">${m.category || "Diğer"}</div>
-              </div>
-              <p class="desc">${m.description || "Açıklama eklenmemiş."}</p>
-              <div class="meta">${meta || ""}</div>
-              <div class="actions">
-                <a class="secondary" href="mod.html?id=${encodeURIComponent(m.id||"")}" target="_self">Detay</a>
-                <a class="primary" href="${m.download || "#"}" ${m.download ? "target=_blank" : ""}>İndir</a>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    function applyFilters(){
-      const q = normalize($("#q").value);
-      const cat = $("#cat").value;
-
-      let out = state.mods.slice();
-
-      if(cat && cat !== "all"){
-        out = out.filter(m => m.category === cat);
-      }
-      if(q){
-        out = out.filter(m => {
-          const hay = normalize([m.name, m.description, m.category, m.author, m.id].join(" "));
-          return hay.includes(q);
-        });
-      }
-      state.filtered = out;
-      render(out);
-    }
-
-    async function load(){
-      try{
-        const r = await fetch("mods.json", { cache: "no-store" });
-        if(!r.ok) throw new Error("mods.json okunamadı");
-        const data = await r.json();
-        state.mods = Array.isArray(data) ? data : [];
-        buildCategories(state.mods);
-        applyFilters();
-      }catch(e){
-        $("#grid").style.display = "none";
-        $("#status").style.display = "block";
-        $("#status").textContent = "Hata: mods.json yüklenemedi. Repo’da mods.json var mı kontrol et.";
-        console.error(e);
-      }
-    }
-
-    $("#q").addEventListener("input", applyFilters);
-    $("#cat").addEventListener("change", applyFilters);
-
-    load();
-  </script>
 </body>
 </html>
