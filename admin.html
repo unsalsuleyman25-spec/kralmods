@@ -38,6 +38,9 @@ button{
   background:#e63946;
   color:white;
 }
+.hidden{
+  display:none;
+}
 .mod-item{
   display:flex;
   justify-content:space-between;
@@ -46,22 +49,17 @@ button{
   border-bottom:1px solid #eee;
 }
 </style>
-
-<script>
-// 🔒 BURAYI DEĞİŞTİREBİLİRSİN
-const ADMIN_PASSWORD = "kralmods2026";
-
-const input = prompt("Admin şifresini gir:");
-
-if(input !== ADMIN_PASSWORD){
-  document.write("<h2 style='text-align:center;margin-top:100px;'>Yetkisiz erişim.</h2>");
-  throw new Error("Unauthorized");
-}
-</script>
-
 </head>
 
 <body>
+
+<div class="card" id="loginBox">
+<h2>🔒 Admin Giriş</h2>
+<input type="password" id="password" placeholder="Şifre">
+<button class="primary" onclick="checkLogin()">Giriş Yap</button>
+</div>
+
+<div id="adminPanel" class="hidden">
 
 <div class="card">
 <h2>Yeni Mod Ekle</h2>
@@ -87,7 +85,22 @@ if(input !== ADMIN_PASSWORD){
 <div id="modList"></div>
 </div>
 
+</div>
+
 <script>
+
+const ADMIN_PASSWORD = "kralmods2026";
+
+function checkLogin(){
+  const input = document.getElementById("password").value;
+  if(input !== ADMIN_PASSWORD){
+    alert("Yanlış şifre");
+    return;
+  }
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("adminPanel").classList.remove("hidden");
+  loadMods();
+}
 
 const owner = "unsalsuleyman25-spec";
 const repo = "kralmods";
@@ -175,8 +188,6 @@ async function loadMods(){
     list.appendChild(div);
   });
 }
-
-loadMods();
 
 </script>
 
