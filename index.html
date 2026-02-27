@@ -196,10 +196,31 @@ body{
     placeholder="Mod ara..."
     style="padding:12px 15px;width:100%;max-width:400px;border-radius:12px;border:1px solid #ddd;"
   >
-</div>
-  <div id="grid" class="grid"></div>
-</div>
+<div id="mods" class="wrap">
 
+  <!-- 🔎 Arama Kutusu -->
+  <div style="margin-bottom:20px;text-align:center;">
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Mod ara..."
+      style="padding:12px 15px;width:100%;max-width:400px;border-radius:12px;border:1px solid #ddd;"
+    >
+  </div>
+
+  <!-- 🏷️ Kategori Filtre -->
+  <div style="text-align:center;margin-bottom:25px;">
+    <button class="filter-btn" data-category="all">Hepsi</button>
+    <button class="filter-btn" data-category="Traktör">Traktör</button>
+    <button class="filter-btn" data-category="Harita">Harita</button>
+    <button class="filter-btn" data-category="Ekipman">Ekipman</button>
+    <button class="filter-btn" data-category="Skin">Skin</button>
+    <button class="filter-btn" data-category="Yama">Yama</button>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+</div>
 <script>
 async function loadMods(){
   const res = await fetch("mods.json?cache="+Date.now());
