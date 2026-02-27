@@ -256,6 +256,44 @@ if(searchInput){
     });
   });
 }
+  // 🏷️ KATEGORİ FİLTRE
+document.querySelectorAll(".filter-btn").forEach(button=>{
+  button.addEventListener("click", function(){
+    const category = this.getAttribute("data-category");
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(card=>{
+      const badge = card.querySelector(".badge");
+      if(!badge) return;
+
+      if(category === "all"){
+        card.style.display = "";
+      } else if(badge.textContent === category){
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+});
+ <div id="mods" class="wrap">
+
+  <!-- 🔎 Arama Kutusu -->
+  ...search input...
+
+  <!-- 🏷️ Kategori Filtre -->
+  <div style="text-align:center;margin-bottom:25px;">
+    <button class="filter-btn" data-category="all">Hepsi</button>
+    <button class="filter-btn" data-category="Traktör">Traktör</button>
+    <button class="filter-btn" data-category="Harita">Harita</button>
+    <button class="filter-btn" data-category="Ekipman">Ekipman</button>
+    <button class="filter-btn" data-category="Skin">Skin</button>
+    <button class="filter-btn" data-category="Yama">Yama</button>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+</div>
 </script>
 </body>
 </html>
